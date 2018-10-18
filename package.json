@@ -1,0 +1,30 @@
+{
+	"name": "little_darrel",
+	"version": "1.0.0",
+	"description": "little_darrel",
+	"main": "Life.js",
+	"dependencies": {
+		"babel-preset-env": "^1.7.0",
+		"commander": "^2.19.0",
+		"inspector": "^0.5.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.1.2",
+		"@babel/preset-env": "^7.1.0",
+		"babel-cli": "^6.26.0"
+	},
+	"scripts": {
+		"build": "babel src -d lib",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Melvin-Young/little_darrel.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Melvin-Young/little_darrel/issues"
+	},
+	"homepage": "https://github.com/Melvin-Young/little_darrel#readme"
+}
