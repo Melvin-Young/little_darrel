@@ -50,13 +50,13 @@ class Tamagotchi {
 			this._lowerHunger();
 			this._boostMood();
 			this._increasePoo();
-			console.log(`That was some good ${food}`);
+			this._setUI(`That was some good ${food}`);
 		} else if (this.hungerWarning) {
 			this._lowerHealth();
 			this._lowerMood();
-			console.log(`:-S I'm starting to feel pretty sick`);
+			this._setUI(`:-S I'm starting to feel pretty sick`);
 		} else {
-			console.log(`No thanks I'm not really hungry for ${food} right now`);
+			this._setUI(`No thanks I'm not really hungry for ${food} right now`);
 			this.hungerWarning = true;
 		}
 		this._handleHealth();
@@ -67,13 +67,13 @@ class Tamagotchi {
 		this._boostMood();
 		this._raiseHealth();
 		const game = this._selectRandomIndex(this.games);
-		console.log(`\n\nThat was a fun game of ${game} right there!!\n\n`);
+		this._setUI(`That was a fun game of ${game} right there!!`);
 		this._handleHealth();
 	}
 
 	isAwake() {
 		if (this.awake) return true;
-		console.log('\n\nzzzzzZZZZZZZzzzzzZzz\n\n');
+		this._setUI('zzzzzZZZZZZZzzzzzZzz');
 		return false;
 	}
 
@@ -81,23 +81,23 @@ class Tamagotchi {
 		if (!this.isAwake()) return;
 		this._sleep();
 		this._raiseHealth();
-		console.log('\n\nGoodnight...\n\n');
+		this._setUI('Goodnight...');
 	}
 
 	wakeUp() {
 		if (this.awake) return;
 		this._wake();
-		console.log(`\n\nYAAaawwwnn....., Let's do something\n\n`);
+		this._setUI(`YAAaawwwnn....., Let's do something`);
 	}
 
 	takeAPoo() {
 		if (!this.isAwake()) return;
 		if (this.poo > 2) {
 			this._poo();
-			console.log('\n\nBetter out than in I always say...\n\n');
+			this._setUI('Better out than in I always say...');
 			return;
 		}
-		console.log(`I don't need to poo right now.`);
+		this._setUI(`I don't need to poo right now.`);
 	}
 
 	getStats() {
@@ -135,10 +135,8 @@ class Tamagotchi {
 	_die() {
 		this.interactions.ui.close();
 		this._clearTimers();
-		console.log(
-			`\n\nGone but not forgotten ${this.name} lived for ${
-				this.ageIndex
-			} birthdays\n`
+		this._setUI(
+			`Gone but not forgotten ${this.name} lived for ${this.ageIndex} birthdays`
 		);
 		process.exit();
 	}
@@ -188,7 +186,7 @@ class Tamagotchi {
 		this.poo = 0;
 		this.cleanWarning = true;
 		this.pooWarning = false;
-		console.log(`
+		this._setUI(`
 		   ~~~~~
 		  ()
 		 ()()
@@ -234,7 +232,7 @@ class Tamagotchi {
 			this.pooWarning;
 
 		if (this.needsAttention) {
-			console.log('\n\nCan you please take better care of me\n');
+			this._setUI('Can you please take better care of me');
 		}
 	}
 
@@ -247,7 +245,9 @@ class Tamagotchi {
 
 	/* Utils */
 	// User Interface
-	_setUI() {
+	_setUI(output) {
+		this.interactions && this.interactions.ui.close();
+		console.log(`\n ${output} \n`);
 		this.interactions = Inquirer.prompt(interactionPrompts);
 		this.interactions
 			.then(({ activity }) => {
@@ -277,7 +277,7 @@ class Tamagotchi {
 						console.log(this.getWarnings());
 						break;
 					default:
-						console.log(`\n\nSorry I don't understand\n`);
+						console.log(`Sorry I don't understand`);
 				}
 				this.interactions.ui.close();
 				this._setUI();
@@ -305,9 +305,7 @@ class Tamagotchi {
 
 		this.birthdayTimer = setInterval(() => {
 			this._birthday();
-			console.log(
-				`\n${this.name} has just become another year older and wiser\n`
-			);
+			this._setUI(`${this.name} has just become another year older and wiser`);
 		}, CONST_BIRTHDAY_INTERVAL);
 	}
 

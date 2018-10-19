@@ -24,5 +24,5 @@ module.exports.Ages = [
 	'dead',
 ];
 
-const lifespanSeconds = 30;
+const lifespanSeconds = 240;
 module.exports.Lifespan = lifespanSeconds * 1000;
