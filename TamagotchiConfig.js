@@ -1,4 +1,4 @@
-const games = [
+module.exports.Games = [
 	'Fortnite',
 	'Football',
 	'Read Dead Redemption',
@@ -6,7 +6,7 @@ const games = [
 	'Halo',
 ];
 
-const food = [
+module.exports.Foods = [
 	'Party Fowl',
 	'Jim N Nicks',
 	'Dukes',
@@ -14,10 +14,15 @@ const food = [
 	'The Boulevarde',
 ];
 
-const ages = ['egg', 'baby', 'child', 'teen', 'adult', 'elderly', 'dead'];
+module.exports.Ages = [
+	'egg',
+	'baby',
+	'child',
+	'teen',
+	'adult',
+	'elderly',
+	'dead',
+];
 
-module.exports = {
-	games,
-	food,
-	ages,
-};
+const lifespanSeconds = 30;
+module.exports.Lifespan = lifespanSeconds * 1000;

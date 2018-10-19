@@ -1,6 +1,24 @@
-const Tamagotchi = require('./Tamagotchi');
-const { games, ages } = require('./TamagotchiConfig');
+(async function() {
+	const Tamagotchi = require('./Tamagotchi');
+	const { Games, Foods, Ages } = require('./TamagotchiConfig');
+	const { initializationPrompts } = require('./UserInterface');
+	const Inquirer = require('inquirer');
 
-const Darrel = new Tamagotchi('Little Darrel', games, ages);
-console.log(Darrel.feedMeal());
-console.log(`${Darrel.name}`);
+	const config = await Inquirer.prompt(initializationPrompts).then(
+		({ name, games, foods }) => {
+			const configGames = games ? games.split(/[ ,]+/) : Games;
+			const configFoods = foods ? foods.split(/[ ,]+/) : Foods;
+			return {
+				name: name || 'Darrel',
+				foods: configFoods,
+				games: configGames,
+				ages: Ages,
+			};
+		}
+	);
+	try {
+		const tamagotchi = new Tamagotchi(config);
+	} catch (error) {
+		console.log(error.message);
+	}
+})();
