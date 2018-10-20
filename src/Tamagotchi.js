@@ -238,8 +238,6 @@ class Tamagotchi {
 			this._poo();
 		}
 
-
-
 		if (this._needsAttention()) {
 			console.log('\nCan you please take better care of me\n');
 		}
