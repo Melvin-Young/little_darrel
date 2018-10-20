@@ -1,15 +1,9 @@
-const { Lifespan, Ages } = require('./TamagotchiConfig');
+const Config = require('./TamagotchiConfig');
 const { interactionPrompts } = require('./UserInterface');
 const Inquirer = require('inquirer');
 
-const CONST_LIFESPAN = Lifespan;
-const CONST_SLEEP_DURATION = CONST_LIFESPAN / 4;
-const CONST_SLEEP_INTERVAL = CONST_LIFESPAN / 8;
-const CONST_DAY_DURATION = CONST_LIFESPAN / 20;
-const CONST_BIRTHDAY_INTERVAL = CONST_LIFESPAN / Ages.length;
-
 class Tamagotchi {
-	constructor({ name, foods, games, ages }) {
+	constructor({ name, foods, games, ages = Config.Ages}) {
 		this.name = name;
 		this.awake = true;
 		this.health = 5;
@@ -291,26 +285,26 @@ class Tamagotchi {
 	_setTimers() {
 		this.lifespanTimer = setTimeout(() => {
 			this._die();
-		}, CONST_LIFESPAN);
+		}, Config.Lifespan);
 
 		this.dayTimer = setInterval(() => {
 			this._handleDailyAttrition();
 			this._handleHealth();
-		}, CONST_DAY_DURATION);
+		}, Config.DayDuration);
 
 		this.sleepTimer = setInterval(() => {
 			this.goToSleep();
 			setTimeout(() => {
 				this.wakeUp();
-			}, CONST_SLEEP_DURATION);
-		}, CONST_SLEEP_INTERVAL);
+			}, Config.SleepDuration);
+		}, Config.SleepInterval);
 
 		this.birthdayTimer = setInterval(() => {
 			this._birthday();
 			console.log(
 				`\n${this.name} has just become another year older and wiser\n`
 			);
-		}, CONST_BIRTHDAY_INTERVAL);
+		}, Config.BirthdayInterval);
 	}
 
 	_clearTimers() {

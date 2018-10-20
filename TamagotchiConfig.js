@@ -26,3 +26,7 @@ module.exports.Ages = [
 
 const lifespanSeconds = 240;
 module.exports.Lifespan = lifespanSeconds * 1000;
+module.exports.SleepDuration = this.Lifespan / 4;
+module.exports.SleepInterval = this.Lifespan / 8;
+module.exports.DayDuration = this.Lifespan / 20;
+module.exports.BirthdayInterval = this.Lifespan / this.Ages.length;
