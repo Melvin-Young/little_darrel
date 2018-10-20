@@ -46,14 +46,14 @@ class Tamagotchi {
 			this._lowerHunger();
 			this._boostMood();
 			this._increasePoo();
-			console.log(`\n\nThat was some good ${food}\n`);
+			console.log(`\nThat was some good ${food}\n`);
 		} else if (this.hungerWarning) {
 			this._lowerHealth();
 			this._lowerMood();
 			console.log(`\n:-S I'm starting to feel pretty sick\n`);
 		} else {
 			console.log(
-				`\n\nNo thanks I'm not really hungry for ${food} right now\n`
+				`\nNo thanks I'm not really hungry for ${food} right now\n`
 			);
 			this.hungerWarning = true;
 		}
@@ -66,7 +66,7 @@ class Tamagotchi {
 		this._boostMood();
 		this._raiseHealth();
 		const game = this._selectRandomIndex(this.games);
-		console.log(`\n\nThat was a fun game of ${game} right there!!\n`);
+		console.log(`\nThat was a fun game of ${game} right there!!\n`);
 		this._handleHealth();
 	}
 
@@ -74,7 +74,7 @@ class Tamagotchi {
 		if (this.awake)
 			return true;
 
-		console.log('\n\nzzzzzZZZZZZZzzzzzZzz\n');
+		console.log('\nzzzzzZZZZZZZzzzzzZzz\n');
 		return false;
 	}
 
@@ -83,14 +83,14 @@ class Tamagotchi {
 
 		this._sleep();
 		this._raiseHealth();
-		console.log('\n\nGoodnight...\n');
+		console.log('\nGoodnight...\n');
 	}
 
 	wakeUp() {
 		if (this.awake) return;
 
 		this._wake();
-		console.log(`\n\nYAAaawwwnn....., Let's do something\n`);
+		console.log(`\nYAAaawwwnn....., Let's do something\n`);
 	}
 
 	takeAPoo() {
@@ -98,7 +98,7 @@ class Tamagotchi {
 
 		if (this.poo > 2) {
 			this._poo();
-			console.log('\n\nBetter out than in I always say...\n');
+			console.log('\nBetter out than in I always say...\n');
 			return;
 		}
 		console.log(`I don't need to poo right now.`);
@@ -237,7 +237,7 @@ class Tamagotchi {
 			this.pooWarning;
 
 		if (this.needsAttention) {
-			console.log('\n\nCan you please take better care of me\n');
+			console.log('\nCan you please take better care of me\n');
 		}
 	}
 
@@ -281,7 +281,7 @@ class Tamagotchi {
 						console.log(this.getWarnings());
 						break;
 					default:
-						console.log(`\n\nSorry I don't understand\n`);
+						console.log(`\nSorry I don't understand\n`);
 				}
 				this.interactions.ui.close();
 				this._setUI();
