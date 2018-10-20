@@ -313,15 +313,6 @@ class Tamagotchi {
 		}, CONST_BIRTHDAY_INTERVAL);
 	}
 
-	_setSleepCycle() {
-		return setInterval(() => {
-			this.goToSleep();
-			setTimeout(() => {
-				this.wakeUp();
-			}, CONST_SLEEP_DURATION);
-		}, CONST_SLEEP_INTERVAL);
-	}
-
 	_clearTimers() {
 		clearTimeout(this.lifespanTimer);
 		clearInterval(this.dayTimer);
