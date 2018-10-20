@@ -39,8 +39,7 @@ class Tamagotchi {
 
 		// User Interaction
 		this.interactions = undefined;
-		console.log(`${this.name} is born`);
-		this._setUI();
+		this._setUI(`${this.name} is born`);
 	}
 
 	/* User Interactions */
@@ -51,21 +50,15 @@ class Tamagotchi {
 			this._lowerHunger();
 			this._boostMood();
 			this._increasePoo();
-			this.interactions.ui.close();
 			console.log(`\n\nThat was some good ${food}\n`);
-			this._setUI();
 		} else if (this.hungerWarning) {
 			this._lowerHealth();
 			this._lowerMood();
-			this.interactions.ui.close();
 			console.log(`\n:-S I'm starting to feel pretty sick\n`);
-			this._setUI();
 		} else {
-			this.interactions.ui.close();
 			console.log(
 				`\n\nNo thanks I'm not really hungry for ${food} right now\n`
 			);
-			this._setUI();
 			this.hungerWarning = true;
 		}
 		this._handleHealth();
@@ -76,17 +69,13 @@ class Tamagotchi {
 		this._boostMood();
 		this._raiseHealth();
 		const game = this._selectRandomIndex(this.games);
-		this.interactions.ui.close();
 		console.log(`\n\nThat was a fun game of ${game} right there!!\n`);
-		this._setUI();
 		this._handleHealth();
 	}
 
 	isAwake() {
 		if (this.awake) return true;
-		this.interactions.ui.close();
 		console.log('\n\nzzzzzZZZZZZZzzzzzZzz\n');
-		this._setUI();
 		return false;
 	}
 
@@ -94,36 +83,27 @@ class Tamagotchi {
 		if (!this.isAwake()) return;
 		this._sleep();
 		this._raiseHealth();
-		this.interactions.ui.close();
 		console.log('\n\nGoodnight...\n');
-		this._setUI();
 	}
 
 	wakeUp() {
 		if (this.awake) return;
 		this._wake();
-		this.interactions.ui.close();
 		console.log(`\n\nYAAaawwwnn....., Let's do something\n`);
-		this._setUI();
 	}
 
 	takeAPoo() {
 		if (!this.isAwake()) return;
 		if (this.poo > 2) {
 			this._poo();
-			this.ui.interactions.close();
 			console.log('\n\nBetter out than in I always say...\n');
-			this._setUI();
 			return;
 		}
-		this.interactions.ui.close();
 		console.log(`I don't need to poo right now.`);
-		this._setUI();
 	}
 
 	getStats() {
-		this.interactions.ui.close();
-		console.log(`
+		return `
 		Health
 		********************
 		Mood: ${this.moods[this.moodIndex]}
@@ -132,12 +112,11 @@ class Tamagotchi {
 		Hunger: ${this.hunger}
 		Poo: ${this.poo}
 		Awake: ${this.awake}
-		`);
-		this._setUI();
+		`;
 	}
 
 	getWarnings() {
-		console.log(`
+		return `
 		Warnings
 		********************
 		Health Warning: ${this.healthWarning}
@@ -145,8 +124,7 @@ class Tamagotchi {
 		Poo Warning: ${this.pooWarning}
 		Clean Warning: ${this.cleanWarning}
 		Needs Attention: ${this.needsAttention}
-		`);
-		this._setUI();
+		`;
 	}
 
 	/* Private Actions */
@@ -159,7 +137,6 @@ class Tamagotchi {
 	_die() {
 		this.interactions.ui.close();
 		this._clearTimers();
-		this.interactions.ui.close();
 		console.log(
 			`\nGone but not forgotten ${this.name} lived for ${
 				this.ageIndex
@@ -213,14 +190,13 @@ class Tamagotchi {
 		this.poo = 0;
 		this.cleanWarning = true;
 		this.pooWarning = false;
-		this.interactions.ui.close();
 		console.log(`
 		   ~~~~~
 		  ()
 		 ()()
 		()()()`);
-		this._setUI();
 	}
+
 	_cleanPoo() {
 		this.cleanWarning = false;
 	}
@@ -260,9 +236,7 @@ class Tamagotchi {
 			this.pooWarning;
 
 		if (this.needsAttention) {
-			this.interactions.ui.close();
 			console.log('\n\nCan you please take better care of me\n');
-			this._setUI();
 		}
 	}
 
@@ -290,31 +264,25 @@ class Tamagotchi {
 						this.goToSleep();
 						break;
 					case 'Wake up':
-						this.interactions.ui.close();
 						this.wakeUp();
-						this._setUI();
 						break;
 					case 'Poo':
 						this.takeAPoo();
 						break;
 					case 'Clean Up':
-						this.interactions.ui.close();
 						this._cleanPoo();
-						this._setUI();
 						break;
 					case 'Get Stats':
-						this.getStats();
+						console.log(this.getStats());
 						break;
 					case 'Needs Attention':
-						this.getWarnings();
+						console.log(this.getWarnings());
 						break;
 					default:
-						this.interactions.ui.close();
 						console.log(`\n\nSorry I don't understand\n`);
-						this._setUI();
 				}
-				// this.interactions.ui.close();
-				// this._setUI();
+				this.interactions.ui.close();
+				this._setUI();
 			})
 			.catch((error) => console.log(error.message));
 	}
@@ -339,12 +307,19 @@ class Tamagotchi {
 
 		this.birthdayTimer = setInterval(() => {
 			this._birthday();
-			this.interactions.ui.close();
 			console.log(
 				`\n${this.name} has just become another year older and wiser\n`
 			);
-			this._setUI();
 		}, CONST_BIRTHDAY_INTERVAL);
+	}
+
+	_setSleepCycle() {
+		return setInterval(() => {
+			this.goToSleep();
+			setTimeout(() => {
+				this.wakeUp();
+			}, CONST_SLEEP_DURATION);
+		}, CONST_SLEEP_INTERVAL);
 	}
 
 	_clearTimers() {
