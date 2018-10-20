@@ -14,7 +14,7 @@ class Tamagotchi {
 		this.games = games;
 		this.ages = ages;
 		this.ageIndex = 0;
-		this.moods = ['angry', 'unhappy', 'meh', 'happy', 'overjoyed'];
+		this.moods = Config.Moods;
 		this.moodIndex = 3;
 
 		// Warnings
@@ -33,7 +33,8 @@ class Tamagotchi {
 
 		// User Interaction
 		this.interactions = undefined;
-		this._setUI(`${this.name} is born`);
+		this._setUI();
+		console.log(`${this.name} is born`);
 	}
 
 	/* User Interactions */
@@ -42,9 +43,10 @@ class Tamagotchi {
 
 		const food = this._selectRandomIndex(this.foods);
 
-		if (this.hunger > 0) {
-			this._lowerHunger();
+		if (this.hunger > Config.MinHunger) {
+			this._lowerHunger(3);
 			this._boostMood();
+			this._raiseHealth(3);
 			this._increasePoo();
 			console.log(`\nThat was some good ${food}\n`);
 		} else if (this.hungerWarning) {
@@ -64,7 +66,7 @@ class Tamagotchi {
 		if (!this.isAwake()) return;
 
 		this._boostMood();
-		this._raiseHealth();
+		this._raiseHealth(2);
 		const game = this._selectRandomIndex(this.games);
 		console.log(`\nThat was a fun game of ${game} right there!!\n`);
 		this._handleHealth();
@@ -96,7 +98,7 @@ class Tamagotchi {
 	takeAPoo() {
 		if (!this.isAwake()) return;
 
-		if (this.poo > 2) {
+		if (this.poo > Config.PooThreshold) {
 			this._poo();
 			console.log('\nBetter out than in I always say...\n');
 			return;
@@ -153,41 +155,42 @@ class Tamagotchi {
 	}
 
 	// Happiness
-	_boostMood() {
-		if (this.moodIndex < this.moods.length - 1) 
-			this.moodIndex++;
+	_boostMood(amount = 1) {
+		this.moodIndex += amount;
+		this.moodIndex > Config.MaxMood && (this.moodIndex = Config.MaxMood);
 	}
 
-	_lowerMood() {
-		if (this.moodIndex > 0 )
-			this.moodIndex--;
+	_lowerMood(amount = 1) {
+		this.moodIndex -= amount;
+		this.moodIndex < Config.MinMood && (this.moodIndex = Config.MinMood)
 	}
 
 	// Handle Eating
-	_lowerHunger() {
-		this.hunger = this.hunger > 2 ? this.hunger - 3 : 0;
-		this.hungerWarning = false;
+	_lowerHunger(amount = 1) {
+		this.hunger -= amount;
+		this.hunger < Config.MinHunger && (this.hunger = Config.MinHunger);
 	}
 
-	_increaseHunger() {
-		this.hunger++;
-		if (this.hunger > 8) {
+	_increaseHunger(amount = 1) {
+		this.hunger += amount;
+		this.hunger > Config.MaxHunger && (this.hunger = Config.MaxHunger);
+
+		if (this.hunger > Config.UnderfedWarningThreshold) {
 			this.hungerWarning = true;
 		} else {
 			this.hungerWarning = false;
 		}
 	}
 
-	_increasePoo() {
-		this.poo++;
-		if (this.poo > 8) {
-			this.pooWarning = true;
-		}
+	_increasePoo(amount = 1) {
+		this.poo += amount;
+		this.poo > Config.MaxPoo && (this.poo = Config.MaxPoo);
+		this.poo > Config.PooWarningThreshold && (this.pooWarning = true);
 	}
 
 	// Handle poo
 	_poo() {
-		this.poo = 0;
+		this.poo = Config.MinPoo;
 		this.cleanWarning = true;
 		this.pooWarning = false;
 		console.log(`
@@ -203,16 +206,16 @@ class Tamagotchi {
 	}
 
 	// Handle Sickness
-	_lowerHealth() {
-		this.health > 0 && this.health--;
-		this.health < 2 && (this.healthWarning = true);
+	_lowerHealth(amount = 1) {
+		this.health -= amount;
+		this.health < Config.MinHealth && (this.health = Config.MinHealth);
+		this.health < Config.HealthWarningThreshold && (this.healthWarning = true);
 	}
 
-	_raiseHealth() {
-		this.health = this.health < 9 ? this.health + 2 : 10;
-		if (this.health > 3) {
-			this.healthWarning = false;
-		}
+	_raiseHealth(amount = 1) {
+		this.health += amount;
+		this.health > Config.MaxHealth && (this.health = Config.MaxHealth);
+		this.health > Config.HealthWarningThreshold && (this.healthWarning = false);
 	}
 
 	// Tamagotchi Maintenance
@@ -226,7 +229,7 @@ class Tamagotchi {
 		(this.cleanWarning || this.hunger == 10) && this._lowerHealth();
 
 		// If too much poo, have an accident
-		if (this.poo == 10) {
+		if (this.poo == Config.MaxPoo) {
 			this._poo();
 		}
 
