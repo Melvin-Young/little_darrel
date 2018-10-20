@@ -54,9 +54,7 @@ class Tamagotchi {
 			this._lowerMood();
 			console.log(`\n:-S I'm starting to feel pretty sick\n`);
 		} else {
-			console.log(
-				`\nNo thanks I'm not really hungry for ${food} right now\n`
-			);
+			console.log(`\nNo thanks I'm not really hungry for ${food} right now\n`);
 			this.hungerWarning = true;
 		}
 		this._handleHealth();
@@ -175,6 +173,7 @@ class Tamagotchi {
 	_lowerHunger(amount = 1) {
 		this.hunger -= amount;
 		this.hunger < Config.MinHunger && (this.hunger = Config.MinHunger);
+		this.hungerWarning = false;
 	}
 
 	_increaseHunger(amount = 1) {

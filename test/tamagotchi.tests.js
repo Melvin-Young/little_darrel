@@ -1,5 +1,5 @@
 const { assert, expect } = require('chai');
-const Tamagotchi = require('../Tamagotchi');
+const Tamagotchi = require('../src/Tamagotchi');
 
 describe('A Tamagotchi', function() {
 	const dummyAges = ['Age1', 'Age2', 'Age3'];
@@ -69,11 +69,11 @@ describe('A Tamagotchi', function() {
 		const hunger = tamagotchi.hunger;
 		tamagotchi.hungerWarning = true;
 		tamagotchi._lowerHunger();
-		assert.equal(tamagotchi.hunger, hunger - 3);
+		assert.equal(tamagotchi.hunger, hunger - 1);
 		assert.equal(tamagotchi.hungerWarning, false);
 
 		tamagotchi.hunger = 2;
-		tamagotchi._lowerHunger();
+		tamagotchi._lowerHunger(2);
 		assert.equal(tamagotchi.hunger, 0);
 	});
 
@@ -122,7 +122,7 @@ describe('A Tamagotchi', function() {
 		tamagotchi.healthWarning = true;
 		tamagotchi.health = 2;
 		tamagotchi._raiseHealth();
-		assert.equal(tamagotchi.health, 4);
+		assert.equal(tamagotchi.health, 3);
 		assert.equal(tamagotchi.healthWarning, false);
 	});
 
