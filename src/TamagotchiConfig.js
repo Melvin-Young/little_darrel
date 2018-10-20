@@ -16,7 +16,6 @@ module.exports.Foods = [
 ];
 
 module.exports.Ages = [
-	'egg',
 	'baby',
 	'child',
 	'teen',
@@ -34,12 +33,12 @@ module.exports.Moods = [
 ];
 
 // Lifespan timers
-const lifespanSeconds = 30;
+const lifespanSeconds = 2;
 module.exports.Lifespan = lifespanSeconds * 1000;
 module.exports.SleepDuration = this.Lifespan / 4;
 module.exports.SleepInterval = this.Lifespan / 8;
 module.exports.DayDuration = this.Lifespan / 20;
-module.exports.BirthdayInterval = this.Lifespan / this.Ages.length;
+module.exports.BirthdayInterval = this.Lifespan / this.Ages.length - 1;
 
 // Thresholds
 module.exports.MaxHealth = 10;

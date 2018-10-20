@@ -36,6 +36,33 @@ npm install && npm start
 
 Npm run start
 
+### Gameplay
+
+- Tamagotchi lives for 20 game days currently (setable in the config). Each day the Tamagotchi will suffer some sort of daily attrition. 
+* +1 Hunger
+* +1 Sadness
+*	+1 Poo
+* -1 Health
+
+- The name of the game is to keep your Tamagotchi alive by playing with it or feeding it.
+
+Feeding
+_______
+* -3 Hunger
+* +1 Mood
+* +3 Health
+* +2 Poo
+
+Feeding
+_______
+* +2 Mood
+* +2 Health
+* +2 Hunger
+
+If the Tamagotchi gets too hungry or too unhealthy it will die. Good ways to kill it include:
+* Neglect
+* Overfeeding
+* Overplaying
 ## Issues
 
 - Command line interface not working well with status updates from tamagotchi, sometimes if user is scrolling an update will mess up flow of menu

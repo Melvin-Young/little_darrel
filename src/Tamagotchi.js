@@ -39,15 +39,15 @@ class Tamagotchi {
 
 	/* User Interactions */
 	feed() {
-		if (!this.isAwake()) return;
+		if (!this.isAwake())
+			return;
 
 		const food = this._selectRandomIndex(this.foods);
-
 		if (this.hunger > Config.MinHunger) {
 			this._lowerHunger(3);
 			this._boostMood();
 			this._raiseHealth(3);
-			this._increasePoo();
+			this._increasePoo(2);
 			console.log(`\nThat was some good ${food}\n`);
 		} else if (this.hungerWarning) {
 			this._lowerHealth();
@@ -63,10 +63,12 @@ class Tamagotchi {
 	}
 
 	playGames() {
-		if (!this.isAwake()) return;
+		if (!this.isAwake())
+			return;
 
-		this._boostMood();
+		this._boostMood(2);
 		this._raiseHealth(2);
+		this._increaseHunger(2);
 		const game = this._selectRandomIndex(this.games);
 		console.log(`\nThat was a fun game of ${game} right there!!\n`);
 		this._handleHealth();
@@ -81,22 +83,25 @@ class Tamagotchi {
 	}
 
 	goToSleep() {
-		if (!this.isAwake()) return;
+		if (!this.isAwake())
+			return;
 
 		this._sleep();
-		this._raiseHealth();
+		this._raiseHealth(4);
 		console.log('\nGoodnight...\n');
 	}
 
 	wakeUp() {
-		if (this.awake) return;
+		if (this.awake)
+			return;
 
 		this._wake();
 		console.log(`\nYAAaawwwnn....., Let's do something\n`);
 	}
 
 	takeAPoo() {
-		if (!this.isAwake()) return;
+		if (!this.isAwake())
+			return;
 
 		if (this.poo > Config.PooThreshold) {
 			this._poo();
@@ -120,6 +125,7 @@ class Tamagotchi {
 	}
 
 	getWarnings() {
+		this._needsAttention();
 		return `
 		Warnings
 		********************
@@ -233,15 +239,21 @@ class Tamagotchi {
 			this._poo();
 		}
 
+
+
+		if (this._needsAttention()) {
+			console.log('\nCan you please take better care of me\n');
+		}
+	}
+
+	_needsAttention() {
 		this.needsAttention =
 			this.cleanWarning ||
 			this.hungerWarning ||
 			this.healthWarning ||
 			this.pooWarning;
 
-		if (this.needsAttention) {
-			console.log('\nCan you please take better care of me\n');
-		}
+		return this.needsAttention;
 	}
 
 	_handleDailyAttrition() {
@@ -295,6 +307,10 @@ class Tamagotchi {
 	// Timers
 	_setTimers() {
 		this.lifespanTimer = setTimeout(() => {
+			console.log(`
+			Awesome job at parenting ${this.name}!
+			${this.name} wanted to leave you their collection of Nickelback CDs for gratitude.
+			${this.name} said you'd appreciate that do to your love of Nickelback.`)
 			this._die();
 		}, Config.Lifespan);
 
