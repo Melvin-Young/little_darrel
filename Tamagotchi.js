@@ -290,7 +290,9 @@ class Tamagotchi {
 						this.goToSleep();
 						break;
 					case 'Wake up':
+						this.interactions.ui.close();
 						this.wakeUp();
+						this._setUI();
 						break;
 					case 'Poo':
 						this.takeAPoo();
