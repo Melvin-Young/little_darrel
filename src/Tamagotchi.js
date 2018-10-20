@@ -39,7 +39,9 @@ class Tamagotchi {
 	/* User Interactions */
 	feed() {
 		if (!this.isAwake()) return;
+
 		const food = this._selectRandomIndex(this.foods);
+
 		if (this.hunger > 0) {
 			this._lowerHunger();
 			this._boostMood();
@@ -60,6 +62,7 @@ class Tamagotchi {
 
 	playGames() {
 		if (!this.isAwake()) return;
+
 		this._boostMood();
 		this._raiseHealth();
 		const game = this._selectRandomIndex(this.games);
@@ -68,13 +71,16 @@ class Tamagotchi {
 	}
 
 	isAwake() {
-		if (this.awake) return true;
+		if (this.awake)
+			return true;
+
 		console.log('\n\nzzzzzZZZZZZZzzzzzZzz\n');
 		return false;
 	}
 
 	goToSleep() {
 		if (!this.isAwake()) return;
+
 		this._sleep();
 		this._raiseHealth();
 		console.log('\n\nGoodnight...\n');
@@ -82,12 +88,14 @@ class Tamagotchi {
 
 	wakeUp() {
 		if (this.awake) return;
+
 		this._wake();
 		console.log(`\n\nYAAaawwwnn....., Let's do something\n`);
 	}
 
 	takeAPoo() {
 		if (!this.isAwake()) return;
+
 		if (this.poo > 2) {
 			this._poo();
 			console.log('\n\nBetter out than in I always say...\n');
@@ -131,11 +139,7 @@ class Tamagotchi {
 	_die() {
 		this.interactions.ui.close();
 		this._clearTimers();
-		console.log(
-			`\nGone but not forgotten ${this.name} lived for ${
-				this.ageIndex
-			} birthdays\n`
-		);
+		console.log(`\nGone but not forgotten ${this.name} lived for ${this.ageIndex} birthdays\n`);
 		process.exit();
 	}
 
@@ -150,11 +154,13 @@ class Tamagotchi {
 
 	// Happiness
 	_boostMood() {
-		this.moodIndex < this.moods.length - 1 && this.moodIndex++;
+		if (this.moodIndex < this.moods.length - 1) 
+			this.moodIndex++;
 	}
 
 	_lowerMood() {
-		this.moodIndex > 0 && this.moodIndex--;
+		if (this.moodIndex > 0 )
+			this.moodIndex--;
 	}
 
 	// Handle Eating
@@ -188,7 +194,8 @@ class Tamagotchi {
 		   ~~~~~
 		  ()
 		 ()()
-		()()()`);
+		()()()`
+		);
 	}
 
 	_cleanPoo() {
@@ -242,6 +249,7 @@ class Tamagotchi {
 	}
 
 	/* Utils */
+	// TODO move these out of class
 	// User Interface
 	_setUI() {
 		this.interactions = Inquirer.prompt(interactionPrompts);
