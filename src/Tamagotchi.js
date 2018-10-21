@@ -34,7 +34,7 @@ class Tamagotchi {
 		// User Interaction
 		this.interactions = undefined;
 		this._setUI();
-		console.log(`${this.name} is born`);
+		this_output`${this.name} is born`;
 	}
 
 	/* User Interactions */
@@ -48,13 +48,13 @@ class Tamagotchi {
 			this._boostMood();
 			this._raiseHealth(3);
 			this._increasePoo(2);
-			console.log(`\nThat was some good ${food}\n`);
+			this._output`That was some good ${food}`;
 		} else if (this.hungerWarning) {
 			this._lowerHealth();
 			this._lowerMood();
-			console.log(`\n:-S I'm starting to feel pretty sick\n`);
+			this._output`:-S I'm starting to feel pretty sick`;
 		} else {
-			console.log(`\nNo thanks I'm not really hungry for ${food} right now\n`);
+			this._output`No thanks I'm not really hungry for ${food} right now`;
 			this.hungerWarning = true;
 		}
 		this._handleHealth();
@@ -68,7 +68,7 @@ class Tamagotchi {
 		this._raiseHealth(2);
 		this._increaseHunger(2);
 		const game = this._selectRandomIndex(this.games);
-		console.log(`\nThat was a fun game of ${game} right there!!\n`);
+		this._output`That was a fun game of ${game} right there!!`;
 		this._handleHealth();
 	}
 
@@ -76,7 +76,7 @@ class Tamagotchi {
 		if (this.awake)
 			return true;
 
-		console.log('\nzzzzzZZZZZZZzzzzzZzz\n');
+		_output('zzzzzZZZZZZZzzzzzZzz');
 		return false;
 	}
 
@@ -86,7 +86,7 @@ class Tamagotchi {
 
 		this._sleep();
 		this._raiseHealth(4);
-		console.log('\nGoodnight...\n');
+		_output('Goodnight...');
 	}
 
 	wakeUp() {
@@ -94,7 +94,7 @@ class Tamagotchi {
 			return;
 
 		this._wake();
-		console.log(`\nYAAaawwwnn....., Let's do something\n`);
+		this._output`YAAaawwwnn....., Let's do something`;
 	}
 
 	takeAPoo() {
@@ -103,10 +103,10 @@ class Tamagotchi {
 
 		if (this.poo > Config.PooThreshold) {
 			this._poo();
-			console.log('\nBetter out than in I always say...\n');
+			_output('Better out than in I always say...');
 			return;
 		}
-		console.log(`I don't need to poo right now.`);
+		this._output`I don't need to poo right now.`;
 	}
 
 	getStats() {
@@ -145,7 +145,7 @@ class Tamagotchi {
 	_die() {
 		this.interactions.ui.close();
 		this._clearTimers();
-		console.log(`\nGone but not forgotten ${this.name} lived for ${this.ageIndex} birthdays\n`);
+		this._output`Gone but not forgotten ${this.name} lived for ${this.ageIndex} birthdays`;
 		process.exit();
 	}
 
@@ -198,12 +198,12 @@ class Tamagotchi {
 		this.poo = Config.MinPoo;
 		this.cleanWarning = true;
 		this.pooWarning = false;
-		console.log(`
+		this._output`
 		   ~~~~~
 		  ()
 		 ()()
 		()()()`
-		);
+		;
 	}
 
 	_cleanPoo() {
@@ -239,7 +239,7 @@ class Tamagotchi {
 		}
 
 		if (this._needsAttention()) {
-			console.log('\nCan you please take better care of me\n');
+			_output('Can you please take better care of me');
 		}
 	}
 
@@ -287,13 +287,13 @@ class Tamagotchi {
 						this._cleanPoo();
 						break;
 					case 'Get Stats':
-						console.log(this.getStats());
+						this._output(this.getStats());
 						break;
 					case 'Needs Attention':
-						console.log(this.getWarnings());
+						_output(this.getWarnings());
 						break;
 					default:
-						console.log(`\nSorry I don't understand\n`);
+						this._output`Sorry I don't understand`;
 				}
 				this.interactions.ui.close();
 				this._setUI();
@@ -304,10 +304,10 @@ class Tamagotchi {
 	// Timers
 	_setTimers() {
 		this.lifespanTimer = setTimeout(() => {
-			console.log(`
+			this_output`
 			Awesome job at parenting ${this.name}!
 			${this.name} wanted to leave you their collection of Nickelback CDs for gratitude.
-			${this.name} said you'd appreciate that do to your love of Nickelback.`)
+			${this.name} said you'd appreciate that do to your love of Nickelback.`
 			this._die();
 		}, Config.Lifespan);
 
@@ -325,8 +325,8 @@ class Tamagotchi {
 
 		this.birthdayTimer = setInterval(() => {
 			this._birthday();
-			console.log(
-				`\n${this.name} has just become another year older and wiser\n`
+			_output(
+				`${this.name} has just become another year older and wiser`
 			);
 		}, Config.BirthdayInterval);
 	}
@@ -342,6 +342,11 @@ class Tamagotchi {
 	_selectRandomIndex(array) {
 		const randomIndex = Math.floor(Math.random() * array.length);
 		return array[randomIndex];
+	}
+
+	_output(output) {
+		console.clear();
+		console.log(output.raw[0]);
 	}
 }
 module.exports = Tamagotchi;
