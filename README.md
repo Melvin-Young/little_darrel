@@ -63,6 +63,10 @@ If the Tamagotchi gets too hungry or too unhealthy it will die. Good ways to kil
 * Neglect
 * Overfeeding
 * Overplaying
+During gameplay selecting Get Stats will return the health stats of your Tamagotchi, and selecting Needs Attention shows you which areas of the Tamagotchi's health need you to address. Happy playing.
+
+If the updates get too hectic selecting the clear option in the menu will reset the terminal
+
 ## Issues
 
 - Command line interface not working well with status updates from tamagotchi, sometimes if user is scrolling an update will mess up flow of menu

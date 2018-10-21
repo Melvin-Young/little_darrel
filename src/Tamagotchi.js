@@ -292,6 +292,9 @@ class Tamagotchi {
 					case 'Needs Attention':
 						console.log(this.getWarnings());
 						break;
+					case 'Clear Terminal':
+						console.clear()
+						break;
 					default:
 						console.log(`\nSorry I don't understand\n`);
 				}

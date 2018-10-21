@@ -30,6 +30,7 @@ module.exports.interactionPrompts = [
 			'Clean Up',
 			'Get Stats',
 			'Needs Attention',
+			'Clear Terminal',
 		],
 	},
 ];

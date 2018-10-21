@@ -21,7 +21,6 @@ module.exports.Ages = [
 	'teen',
 	'adult',
 	'elderly',
-	'dead',
 ];
 
 module.exports.Moods = [
@@ -33,7 +32,7 @@ module.exports.Moods = [
 ];
 
 // Lifespan timers
-const lifespanSeconds = 2;
+const lifespanSeconds = 240;
 module.exports.Lifespan = lifespanSeconds * 1000;
 module.exports.SleepDuration = this.Lifespan / 4;
 module.exports.SleepInterval = this.Lifespan / 8;
