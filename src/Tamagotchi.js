@@ -235,7 +235,7 @@ class Tamagotchi {
 
 		// If too much poo, have an accident
 		if (this.poo == Config.MaxPoo) {
-			this._poo();
+			this.takeAPoo();
 		}
 
 		if (this._needsAttention()) {
